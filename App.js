@@ -1,15 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 
 const initialColor = '#f4efe6';
 
 function getRandomColor() {
-  const color = Math.floor(Math.random() * 0xffffff)
-    .toString(16)
-    .padStart(6, '0');
+  const letters = '0123456789ABCDEF';
+  let color = '#';
 
-  return `#${color}`;
+  for (let i = 0; i < 6; i += 1) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  return color;
 }
 
 export default function App() {
@@ -20,15 +23,13 @@ export default function App() {
       <Text style={styles.title}>Random background color</Text>
       <Text style={styles.colorValue}>{backgroundColor}</Text>
 
-      <Pressable
-        onPress={() => setBackgroundColor(getRandomColor())}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed,
-        ]}
-      >
-        <Text style={styles.buttonText}>Change color</Text>
-      </Pressable>
+      <View style={styles.buttonWrapper}>
+        <Button
+          title="Change color"
+          onPress={() => setBackgroundColor(getRandomColor())}
+          color="#111827"
+        />
+      </View>
 
       <StatusBar style="auto" />
     </View>
@@ -52,25 +53,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#374151',
   },
-  button: {
+  buttonWrapper: {
     marginTop: 8,
-    backgroundColor: '#111827',
-    paddingHorizontal: 20,
-    paddingVertical: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.78)',
     borderRadius: 999,
-    shadowColor: '#111827',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 4,
-  },
-  buttonPressed: {
-    opacity: 0.85,
-    transform: [{ scale: 0.97 }],
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(17, 24, 39, 0.12)',
   },
 });
