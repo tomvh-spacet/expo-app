@@ -61,5 +61,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderWidth: 1,
     borderColor: 'rgba(17, 24, 39, 0.12)',
+    width: "50%"
   },
 });
