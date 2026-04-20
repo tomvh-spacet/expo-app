@@ -23,7 +23,7 @@ export default function App() {
       <Text style={styles.title}>Random background color</Text>
       <Text style={styles.colorValue}>{backgroundColor}</Text>
 
-      <Pressable style={styles.buttonWrapper} onPress={() => setBackgroundColor(getRandomColor())} >
+      <Pressable style={styles.button} onPress={() => setBackgroundColor(getRandomColor())} >
         <Text style={styles.buttonText}>Change color</Text>
       </Pressable>
 
@@ -49,20 +49,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#374151',
   },
-buttonWrapper: {
-  marginTop: 8,
-  backgroundColor: "rgba(255, 255, 255, 0.78)",
-  borderRadius: 999,
-  paddingHorizontal: 12,
-  paddingVertical: 10,
-  borderWidth: 1,
-  borderColor: "rgba(17, 24, 39, 0.12)",
-  width: "50%",
-  alignItems: "center",
-},
-buttonText: {
-  color: "#111827",
-  fontSize: 18,
-  fontWeight: "bold",
-}
+  button: {
+    marginTop: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.78)",
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: "rgba(17, 24, 39, 0.12)",
+    width: "50%",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#111827",
+    fontSize: 18,
+    fontWeight: "bold",
+  }
 });
