@@ -23,7 +23,13 @@ export default function App() {
       <Text style={styles.title}>Random background color</Text>
       <Text style={styles.colorValue}>{backgroundColor}</Text>
 
-      <Pressable style={styles.button} onPress={() => setBackgroundColor(getRandomColor())} >
+  <Pressable
+    style={({ pressed }) => [
+      styles.button,
+      pressed && styles.buttonPressed,
+    ]}
+    onPress={() => setBackgroundColor(getRandomColor())}
+  >
         <Text style={styles.buttonText}>Change color</Text>
       </Pressable>
 
@@ -59,6 +65,9 @@ const styles = StyleSheet.create({
     borderColor: "rgba(17, 24, 39, 0.12)",
     width: "50%",
     alignItems: "center",
+  },
+  buttonPressed: {
+    opacity: 0.7,
   },
   buttonText: {
     color: "#111827",
