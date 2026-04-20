@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 
 const initialColor = '#f4efe6';
@@ -23,13 +23,9 @@ export default function App() {
       <Text style={styles.title}>Random background color</Text>
       <Text style={styles.colorValue}>{backgroundColor}</Text>
 
-      <View style={styles.buttonWrapper}>
-        <Button
-          title="Change color"
-          onPress={() => setBackgroundColor(getRandomColor())}
-          color="#111827"
-        />
-      </View>
+      <Pressable style={styles.buttonWrapper} onPress={() => setBackgroundColor(getRandomColor())} >
+        <Text style={styles.buttonText}>Change color</Text>
+      </Pressable>
 
       <StatusBar style="auto" />
     </View>
@@ -53,14 +49,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#374151',
   },
-  buttonWrapper: {
-    marginTop: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.78)',
-    borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(17, 24, 39, 0.12)',
-    width: "50%"
-  },
+buttonWrapper: {
+  marginTop: 8,
+  backgroundColor: "rgba(255, 255, 255, 0.78)",
+  borderRadius: 999,
+  paddingHorizontal: 12,
+  paddingVertical: 10,
+  borderWidth: 1,
+  borderColor: "rgba(17, 24, 39, 0.12)",
+  width: "50%",
+  alignItems: "center",
+},
+buttonText: {
+  color: "#111827",
+  fontSize: 18,
+  fontWeight: "bold",
+}
 });
