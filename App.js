@@ -16,24 +16,24 @@ function getRandomColor() {
 }
 
 export default function App() {
+
   const [backgroundColor, setBackgroundColor] = useState(initialColor);
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <Text style={styles.title}>Random background color</Text>
       <Text style={styles.colorValue}>{backgroundColor}</Text>
-
-  <Pressable
-    style={({ pressed }) => [
-      styles.button,
-      pressed && styles.buttonPressed,
-    ]}
-    onPress={() => setBackgroundColor(getRandomColor())}
-  >
+ 
+      <Pressable
+        style={({ pressed }) => [
+        styles.button,
+        pressed && styles.buttonPressed,
+        ]}
+        onPress={() => setBackgroundColor(getRandomColor())}
+      >
         <Text style={styles.buttonText}>Change color</Text>
       </Pressable>
 
-      <StatusBar style="auto" />
     </View>
   );
 }
