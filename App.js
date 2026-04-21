@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 
@@ -33,7 +32,7 @@ export default function App() {
       >
         <Text style={styles.buttonText}>Change color</Text>
       </Pressable>
-
+      
     </View>
   );
 }
