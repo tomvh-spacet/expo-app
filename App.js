@@ -1,38 +1,43 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
-
-const initialColor = '#f4efe6';
-
-function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-
-  for (let i = 0; i < 6; i += 1) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-
-  return color;
-}
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 export default function App() {
 
-  const [backgroundColor, setBackgroundColor] = useState(initialColor);
+  // TODO: voeg state toe voor de modal (true/false)
+  // TODO: voeg state toe voor de input tekst
+  // TODO: voeg state toe voor de huidige taak
+
+  function handleAddPress() {
+    console.log("plus knop geklikt");
+    // TODO: open de modal
+  }
 
   return (
-    <View style={[styles.container, { backgroundColor }]}>
-      <Text style={styles.title}>Random background color</Text>
-      <Text style={styles.colorValue}>{backgroundColor}</Text>
- 
-      <Pressable
-        style={({ pressed }) => [
-        styles.button,
-        pressed && styles.buttonPressed,
-        ]}
-        onPress={() => setBackgroundColor(getRandomColor())}
-      >
-        <Text style={styles.buttonText}>Change color</Text>
-      </Pressable>
+    <View style={styles.container}>
       
+      <Text style={styles.title}>Todo App</Text>
+
+      {/* TODO: maak hier een header row met:
+          - links: "Huidige taak"
+          - rechts: de + knop
+      */}
+
+      {/* tijdelijke + knop  */}
+      <Pressable style={styles.plusButton} onPress={handleAddPress}>
+        <Text style={styles.plusText}>+</Text>
+      </Pressable>
+
+      <View style={styles.taskBox}>
+        {/* TODO: toon hier de taak */}
+      </View>
+
+      {/* TODO: voeg hier een Modal toe */}
+
     </View>
   );
 }
@@ -40,37 +45,45 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    gap: 16,
+    paddingTop: 72,
+    paddingHorizontal: 24,
+    backgroundColor: '#f3f4f6',
   },
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#1f2937',
+    marginBottom: 24,
+    textAlign: 'center',
   },
-  colorValue: {
-    fontSize: 18,
-    color: '#374151',
+
+  // TODO: style voor headerRow
+
+  // TODO: style voor sectionTitle
+
+  plusButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#2563eb',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'left',
+    marginBottom: 16,
   },
-  button: {
-    marginTop: 8,
-    backgroundColor: "rgba(255, 255, 255, 0.78)",
-    borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: "rgba(17, 24, 39, 0.12)",
-    width: "50%",
-    alignItems: "center",
+  plusText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
   },
-  buttonPressed: {
-    opacity: 0.7,
+  taskBox: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    minHeight: 100,
+    justifyContent: 'center',
   },
-  buttonText: {
-    color: "#111827",
-    fontSize: 18,
-    fontWeight: "bold",
-  }
+  emptyText: {
+    color: '#6b7280',
+    fontStyle: 'italic',
+  },
 });
