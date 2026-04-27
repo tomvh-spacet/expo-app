@@ -8,44 +8,34 @@ import {
 
 export default function App() {
 
-  // TODO 3: voeg state toe voor de modal (true/false)
-  // TODO 4: voeg state toe voor de input tekst
-  // TODO 5a: voeg state toe voor de huidige taak
+  // TODO: voeg state toe voor de modal (true/false)
+  // TODO: voeg state toe voor de input tekst
+  // TODO: voeg state toe voor de huidige taak
 
   function handleAddPress() {
     console.log("plus knop geklikt");
-    // TODO 3 : open de modal
+    // TODO: open de modal
   }
-
-  // TODO 3b: voeg een functie toe om de modal te sluiten
-
-  // TODO 5a: voeg een functie toe om de huidige taak te tonen
-
-  // TODO 6: voeg logica toe om ofwel de placeholder ofwel de taak te tonen
 
   return (
     <View style={styles.container}>
       
       <Text style={styles.title}>Todo App</Text>
 
-      {/* TODO 1: maak hier een header row met:
-          - links: "Huidige taak" (sectionTitle)
-          - rechts: de + knop (zie hieronder)
-      */}
-
-      {/* tijdelijke + knop  */}
-      <Pressable style={styles.plusButton} onPress={handleAddPress}>
-        <Text style={styles.plusText}>+</Text>
-      </Pressable>
+    <View style={styles.headerRow}>
+      <Text style={styles.sectionTitle}>Huidige taak</Text>
+        <Pressable style={styles.plusButton} onPress={handleAddPress}>
+          <Text style={styles.plusText}>+</Text>
+        </Pressable>
+    </View>
 
       <View style={styles.taskBox}>
-        {/* TODO 2: toon hier de placeholder of taak */}
+        {/*<Text style={styles.emptyText}>
+          Nog geen taak toegevoegd
+        </Text>*/}
       </View>
 
-      {/* TODO 3a: voeg hier een modal toe */}
-      {/* TODO 3b: voeg een button toe in de modal om die te sluiten */}
-      {/* TODO 4: voeg in de modal een View en TextInput toe */}
-      {/* TODO 5a: voeg een button toe in de modal om een taak toe te voegen */}  
+      {/* TODO: voeg hier een Modal toe */}
 
     </View>
   );
@@ -64,11 +54,15 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     textAlign: 'center',
   },
-
-  // TODO 1: style voor headerRow
-
-  // TODO 1: style voor sectionTitle
-
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
   plusButton: {
     width: 44,
     height: 44,
@@ -105,38 +99,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 16,
     padding: 20,
-  },  
-  modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 12,
-  },
-  secondaryButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: '#e5e7eb',
-  },
-  secondaryButtonText: {
-    color: '#111827',
-    fontWeight: '600',
-  },
-  primaryButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: '#2563eb',
-  },
-  primaryButtonText: {
-    color: 'white',
-    fontWeight: '600',
-  },   
-  input: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 10,
-    padding: 12,
-    fontSize: 16,
-    marginBottom: 20,
   },  
 });
