@@ -11,6 +11,9 @@
     },
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "plugins": [
+      "@react-native-community/datetimepicker"
     ]
   }
 }

@@ -1,41 +1,128 @@
 import { useState } from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+
+import TaskItem from './components/TaskItem';
+import AddTaskModal from './components/AddTaskModal';
+import ConfirmDeleteModal from './components/ConfirmDeleteModal';
+import AiTaskModal from './components/AiTaskModal';
 
 export default function App() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  // TODO: voeg state toe voor de modal (true/false)
-  // TODO: voeg state toe voor de input tekst
-  // TODO: voeg state toe voor de huidige taak
+  const [taskInput, setTaskInput] = useState('');
+  const [taskDate, setTaskDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-  function handleAddPress() {
-    console.log("plus knop geklikt");
-    // TODO: open de modal
+  const [tasks, setTasks] = useState([]);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [aiModalVisible, setAiModalVisible] = useState(false);
+
+  function addTask() {
+    if (taskInput === '') return;
+
+    setTasks([...tasks, {
+      text: taskInput,
+      completed: false,
+      date: taskDate
+    }]);
+
+    setTaskInput('');
+    setTaskDate(new Date());
+    setModalVisible(false);
+  }
+
+  function toggleTask(index) {
+    const newTasks = [...tasks];
+    newTasks[index].completed = !newTasks[index].completed;
+    setTasks(newTasks);
+  }
+
+  function askDeleteTask(index) {
+    setTaskToDelete(index);
+    setDeleteModalVisible(true);
+  }
+
+  function confirmDelete() {
+    const newTasks = [...tasks];
+    newTasks.splice(taskToDelete, 1);
+    setTasks(newTasks);
+    setDeleteModalVisible(false);
+  }
+
+  function formatDate(date) {
+    return date.toLocaleDateString('nl-BE');
+  }
+
+  function addSubtasks(subtasks) {
+    const newTasks = subtasks.map((subtask) => ({
+        text: subtask.title,
+        completed: false,
+        date: new Date(),
+    }));
+    // TODO 5 Voeg de subtaken toe aan de lijst met taken
   }
 
   return (
     <View style={styles.container}>
-      
       <Text style={styles.title}>Todo App</Text>
 
-    <View style={styles.headerRow}>
-      <Text style={styles.sectionTitle}>Huidige taak</Text>
-        <Pressable style={styles.plusButton} onPress={handleAddPress}>
-          <Text style={styles.plusText}>+</Text>
-        </Pressable>
-    </View>
+      <View style={styles.headerRow}>
+        <Text style={styles.sectionTitle}>Huidige taken</Text>
 
-      <View style={styles.taskBox}>
-        {/*<Text style={styles.emptyText}>
-          Nog geen taak toegevoegd
-        </Text>*/}
+        <View style={styles.headerButtons}>
+          {/* TODO 1 Voeg een extra button 'AI' toe die de AI modal opent*/}
+
+            <Pressable style={styles.plusButton} onPress={() => setModalVisible(true)}>
+                <Text style={styles.plusButtonText}>+</Text>
+            </Pressable>
+        </View>
       </View>
 
-      {/* TODO: voeg hier een Modal toe */}
+      <ScrollView>
+        {tasks.length === 0 ? (
+          <Text style={styles.emptyText}>Nog geen taak toegevoegd</Text>
+        ) : (
+          tasks.map((task, index) => (
+            <TaskItem
+              key={index}
+              task={task}
+              index={index}
+              onToggle={toggleTask}
+              onAskDelete={askDeleteTask}
+              formatDate={formatDate}
+            />
+          ))
+        )}
+      </ScrollView>
+
+      <AddTaskModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onAdd={addTask}
+        taskInput={taskInput}
+        setTaskInput={setTaskInput}
+        taskDate={taskDate}
+        showDatePicker={showDatePicker}
+        setShowDatePicker={setShowDatePicker}
+        changeDate={(e, d) => {
+          setShowDatePicker(false);
+          if (d) setTaskDate(d);
+        }}
+        formatDate={formatDate}
+      />
+
+      <ConfirmDeleteModal
+        visible={deleteModalVisible}
+        onCancel={() => setDeleteModalVisible(false)}
+        onConfirm={confirmDelete}
+      />
+
+      <AiTaskModal
+        visible={aiModalVisible}
+        onClose={() => setAiModalVisible(false)}
+        onAddSubtasks={addSubtasks}
+      />
 
     </View>
   );
@@ -44,24 +131,27 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f3f4f6',
     paddingTop: 72,
     paddingHorizontal: 24,
-    backgroundColor: '#f3f4f6',
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '700',
-    marginBottom: 24,
+    color: '#111827',
+    marginBottom: 32,
     textAlign: 'center',
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
+    color: '#1f2937',
   },
   plusButton: {
     width: 44,
@@ -70,34 +160,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#2563eb',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'left',
-    marginBottom: 16,
   },
-  plusText: {
+  plusButtonText: {
     color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  taskBox: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
-    minHeight: 100,
-    justifyContent: 'center',
+    fontSize: 28,
+    lineHeight: 30,
+    fontWeight: '600',
   },
   emptyText: {
+    fontSize: 16,
     color: '#6b7280',
     fontStyle: 'italic',
+    marginTop: 20,
   },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.35)',
-    justifyContent: 'center',
-    padding: 24,
+  headerButtons: {
+   flexDirection: 'row',
+   gap: 8,
   },
-  modalContent: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 20,
-  },  
+  aiButton: {
+   height: 44,
+   paddingHorizontal: 14,
+   borderRadius: 22,
+   backgroundColor: '#7c3aed',
+   justifyContent: 'center',
+   alignItems: 'center',
+  },
+  aiButtonText: {
+   color: 'white',
+   fontWeight: '700',
+  }, 
 });
